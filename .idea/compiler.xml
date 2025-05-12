@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="build-logic.convention" target="21" />
+      <module name="build-logic.convention.main" target="21" />
+      <module name="build-logic.convention.test" target="21" />
+      <module name="Runique-new.app" target="21" />
+      <module name="Runique-new.auth.data" target="21" />
+      <module name="Runique-new.auth.domain" target="11" />
+      <module name="Runique-new.auth.domain.main" target="11" />
+      <module name="Runique-new.auth.domain.test" target="11" />
+      <module name="Runique-new.auth.presentation" target="21" />
+      <module name="Runique-new.build-logic.convention" target="11" />
+      <module name="Runique-new.build-logic.convention.main" target="11" />
+      <module name="Runique-new.build-logic.convention.test" target="11" />
+      <module name="Runique-new.core.data" target="21" />
+      <module name="Runique-new.core.database" target="21" />
+      <module name="Runique-new.core.domain" target="11" />
+      <module name="Runique-new.core.domain.main" target="11" />
+      <module name="Runique-new.core.domain.test" target="11" />
+      <module name="Runique-new.core.presentation.designsystem" target="21" />
+      <module name="Runique-new.core.presentation.ui" target="21" />
+      <module name="Runique-new.run.data" target="21" />
+      <module name="Runique-new.run.domain" target="11" />
+      <module name="Runique-new.run.domain.main" target="11" />
+      <module name="Runique-new.run.domain.test" target="11" />
+      <module name="Runique-new.run.location" target="21" />
+      <module name="Runique-new.run.network" target="21" />
+      <module name="Runique-new.run.presentation" target="21" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_disk_full">Failed to save the item becuase your disk is full!</string>
+    <string name="error_request_timeout">Request timed out!</string>
+    <string name="error_too_many_request">You\'ve hit your daily limit.</string>
+    <string name="error_no_internet">Couldn\'t reach server, please check your connection</string>
+    <string name="error_payload_too_large">The file you\'re trying to upload is too large!\n</string>
+    <string name="error_server_error">OPS..! something went wrong, please try again later!</string>
+    <string name="error_serialization">OPS..! Could\'t parse data.\n</string>
+    <string name="error_unknown">Unknown error occured.</string>
+    <string name="error_email_exists">A user with that email already exists.</string>
+</resources>
