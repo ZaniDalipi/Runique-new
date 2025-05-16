@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -22,11 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +39,6 @@ import com.zanoapps.core.presentation.designsystem.EmailIcon
 import com.zanoapps.core.presentation.designsystem.Poppins
 import com.zanoapps.core.presentation.designsystem.R
 import com.zanoapps.core.presentation.designsystem.RuniqueDarkRed
-import com.zanoapps.core.presentation.designsystem.RuniqueGray
 import com.zanoapps.core.presentation.designsystem.RuniqueGreen
 import com.zanoapps.core.presentation.designsystem.RuniqueTheme
 import com.zanoapps.core.presentation.designsystem.components.GradientBackground
@@ -51,7 +53,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 
 fun RegisterScreenRoot(
-    onSignInClick: () -> Unit,
+    onLoginClick: () -> Unit,
     onSuccessfulRegistration: () -> Unit,
     viewModel: RegisterViewModel = koinViewModel()
 
@@ -60,8 +62,8 @@ fun RegisterScreenRoot(
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    ObserveAsEvents(viewModel.events) {registerEvent ->
-        when(registerEvent) {
+    ObserveAsEvents(viewModel.events) { registerEvent ->
+        when (registerEvent) {
             is RegisterEvent.Error -> {
                 keyboardController?.hide()
                 Toast.makeText(
@@ -71,6 +73,7 @@ fun RegisterScreenRoot(
                 ).show()
 
             }
+
             RegisterEvent.RegistrationSuccess -> {
                 keyboardController?.hide()
                 Toast.makeText(
@@ -88,11 +91,14 @@ fun RegisterScreenRoot(
     }
 
     RegisterScreen(
-
         state = viewModel.state,
-
-        onAction = viewModel::onAction
-
+        onAction = { action ->
+            when (action) {
+                RegisterAction.OnLoginClick -> onLoginClick
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
     )
 
 }
@@ -100,9 +106,7 @@ fun RegisterScreenRoot(
 @Composable
 
 private fun RegisterScreen(
-
     state: RegisterState,
-
     onAction: (RegisterAction) -> Unit
 
 ) {
@@ -116,46 +120,40 @@ private fun RegisterScreen(
                 .padding(vertical = 32.dp)
                 .padding(top = 16.dp)
         ) {
+
+
             Text(
-                text = stringResource(R.string.create_account),
+                text = stringResource(id = R.string.create_account),
                 style = MaterialTheme.typography.headlineMedium
             )
-            val annotatedString = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        fontFamily = Poppins,
-                        color = RuniqueGray
-                    )
-                ) {
-                    append(stringResource(id = R.string.already_have_an_account) + "  ")
-                    pushStringAnnotation(
-                        tag = "clickable_text",
-                        annotation = stringResource(id = R.string.login)
-                    )
-                    withStyle(
-                        style = SpanStyle(
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontFamily = Poppins
-                        )
-                    ) {
-                        append(stringResource(id = R.string.login))
-                    }
-                }
-            }
-            ClickableText(
-                text = annotatedString,
-                onClick = { offset ->
-                    annotatedString.getStringAnnotations(
-                        tag = "clickable_text",
-                        start = offset,
-                        end = offset
-                    ).firstOrNull()?.let {
-                        onAction(RegisterAction.OnLoginClick)
-                    }
 
-                }
+            BasicText(
+                text = buildAnnotatedString {
+                    append(stringResource(R.string.already_have_an_account) + " ")
+                    val link =
+                        LinkAnnotation.Clickable(
+                            tag = "on_login_clickable_text",
+                            styles = TextLinkStyles(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontFamily = Poppins
+                                )
+                            ),
+                            linkInteractionListener = {
+                                onAction(RegisterAction.OnLoginClick)
+                            }
+
+                        )
+                    withLink(link) { append(stringResource(R.string.login)) }
+                },
+                style = TextStyle(
+                    fontFamily = Poppins,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             )
+
+
 
             Spacer(modifier = Modifier.height(48.dp))
             RuniqueTextField(

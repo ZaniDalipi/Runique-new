@@ -1,5 +1,6 @@
 package com.zanoapps.auth.presentation.register
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -40,8 +41,8 @@ class RegisterViewModel(
                     canRegister = isValidEmail && state.passwordValidationState.isValidPassword
                             && !state.isRegistering
                 )
-
-            }.launchIn(viewModelScope)
+            }
+            .launchIn(viewModelScope)
 
         state.password.textAsFlow()
             .onEach { password ->
@@ -49,7 +50,7 @@ class RegisterViewModel(
                     userDataValidator.validatePassword(password.toString())
                 state = state.copy(
                     passwordValidationState = passwordValidationState,
-                    canRegister = state.isEmailValid && state.passwordValidationState.isValidPassword
+                    canRegister = state.isEmailValid && passwordValidationState.isValidPassword
                             && !state.isRegistering
                 )
 
@@ -66,7 +67,7 @@ class RegisterViewModel(
                     isPasswordVisible = !state.isPasswordVisible
                 )
             }
-            else -> Unit
+           else -> Unit
         }
     }
 

@@ -1,6 +1,5 @@
 package com.zanoapps.runique_new
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -8,9 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.zanoapps.auth.presentation.intro.IntroScreenRoot
+import com.zanoapps.auth.presentation.login.LoginScreenRoot
 import com.zanoapps.auth.presentation.register.RegisterScreenRoot
 import com.zanoapps.core.presentation.designsystem.util.Routes
-import okhttp3.Route
 
 @Composable
 fun NavigationRoot(
@@ -42,7 +41,7 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
         }
         composable(route = Routes.REGISTER) {
             RegisterScreenRoot(
-                onSignInClick = {
+                onLoginClick = {
                     navController.navigate(Routes.LOGIN) {
                         //  // 👇 Clears the back stack up to REGISTER
                         popUpTo(Routes.REGISTER) {
@@ -59,7 +58,26 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
         }
         // implement the login screen Rot
         composable(Routes.LOGIN) {
-            Text("Login")
+            LoginScreenRoot(
+                onLoginSuccess = {
+                    navController.navigate(Routes.RUN){
+                        popUpTo(Routes.AUTH){
+                            inclusive = true
+                        }
+                    }
+                },
+                onSignUpClick = {
+                    navController.navigate(Routes.REGISTER) {
+                        //  // 👇 Clears the back stack up to REGISTER
+                        popUpTo(Routes.LOGIN) {
+                            inclusive = true // 👈 Includes REGISTER itself in the pop
+                            saveState = true // 👈 Saves REGISTER's state (e.g., form data)
+                        }
+                        restoreState = true
+                    }
+
+                }
+            )
         }
     }
 }
