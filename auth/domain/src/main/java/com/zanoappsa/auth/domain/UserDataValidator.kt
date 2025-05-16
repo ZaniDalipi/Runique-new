@@ -23,10 +23,6 @@ class UserDataValidator(
     }
 
 
-    fun isPasswordValid(password: String): Boolean {
-        val passwordRegex = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{$MIN_PASS_LENGTH,}$")
-        return passwordRegex.matches(password)
-    }
 
     companion object {
         const val MIN_PASS_LENGTH = 9
