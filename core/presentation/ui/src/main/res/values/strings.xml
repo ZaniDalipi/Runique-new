@@ -9,4 +9,5 @@
     <string name="error_serialization">OPS..! Could\'t parse data.\n</string>
     <string name="error_unknown">Unknown error occured.</string>
     <string name="error_email_exists">A user with that email already exists.</string>
+    <string name="email_password_incorrect">The email or password is incorrect.</string>
 </resources>

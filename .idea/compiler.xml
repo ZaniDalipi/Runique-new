@@ -28,6 +28,7 @@
       <module name="Runique-new.run.location" target="21" />
       <module name="Runique-new.run.network" target="21" />
       <module name="Runique-new.run.presentation" target="21" />
+      <module name="Runiquenew.Runique-new.auth.presentation" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>
