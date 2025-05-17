@@ -1,5 +1,6 @@
 package com.zanoapps.runique_new
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -20,11 +21,14 @@ fun NavigationRoot(
         startDestination = Routes.AUTH
     ) {
         authGraph(navController)
+        runGraph(navController)
 
     }
 }
 
 private fun NavGraphBuilder.authGraph(navController: NavHostController) {
+
+    // impl of INTRO screen navigation
     navigation(
         startDestination = Routes.INTRO,
         route = Routes.AUTH
@@ -39,6 +43,8 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
                 }
             )
         }
+
+        // implement the REGISTER screen for navigation
         composable(route = Routes.REGISTER) {
             RegisterScreenRoot(
                 onLoginClick = {
@@ -56,12 +62,14 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
                 },
             )
         }
-        // implement the login screen Rot
+
+
+        // implement the LOGIN screen for navigation
         composable(Routes.LOGIN) {
             LoginScreenRoot(
                 onLoginSuccess = {
-                    navController.navigate(Routes.RUN){
-                        popUpTo(Routes.AUTH){
+                    navController.navigate(Routes.RUN) {
+                        popUpTo(Routes.AUTH) {
                             inclusive = true
                         }
                     }
@@ -79,5 +87,21 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
                 }
             )
         }
+    }
+}
+
+private fun NavGraphBuilder.runGraph(navController: NavHostController) {
+
+    navigation(
+        startDestination = Routes.RUN_OVERVIEW,
+        route = Routes.RUN
+
+    ) {
+        composable(
+            route = Routes.RUN_OVERVIEW
+        ) {
+            Text(text = "Run Overview")
+        }
+
     }
 }

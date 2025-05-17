@@ -28,7 +28,7 @@ class EncryptedSessionStorage(
                 sharedPreferences.edit().remove(KEY_AUTH_INFO).commit()
                 return@withContext
             }
-
+ 
             val json = Json.encodeToString(info.toAuthInfoSerializable())
             sharedPreferences
                 .edit()

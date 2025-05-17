@@ -77,6 +77,7 @@ class HttpClientFactory(
                                 refreshToken = info?.refreshToken ?: "",
                                 userId = info?.userId ?: ""
                             )
+
                             sessionStorage.set(newAuthInfo)
 
                             BearerTokens(
