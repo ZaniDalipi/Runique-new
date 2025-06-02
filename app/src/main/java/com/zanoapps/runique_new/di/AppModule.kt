@@ -3,7 +3,9 @@ package com.zanoapps.runique_new.di
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.zanoapps.runique_new.MainViewModel
 import org.koin.android.ext.koin.androidApplication
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule = module {  // Creates a Koin DI module
@@ -22,4 +24,6 @@ val appModule = module {  // Creates a Koin DI module
             prefValueEncryptionScheme = EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
     }
+
+    viewModelOf(::MainViewModel)
 }

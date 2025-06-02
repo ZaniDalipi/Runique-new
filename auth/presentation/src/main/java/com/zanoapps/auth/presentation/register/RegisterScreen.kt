@@ -94,7 +94,7 @@ fun RegisterScreenRoot(
         state = viewModel.state,
         onAction = { action ->
             when (action) {
-                RegisterAction.OnLoginClick -> onLoginClick
+                RegisterAction.OnLoginClick -> onLoginClick()
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -118,9 +118,8 @@ private fun RegisterScreen(
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
                 .padding(vertical = 32.dp)
-                .padding(top = 16.dp)
+                .padding(top = 32.dp)
         ) {
-
 
             Text(
                 text = stringResource(id = R.string.create_account),
@@ -252,7 +251,10 @@ fun PasswordRequirement(
                 CrossIcon
             },
             contentDescription = null,
-            tint = if (isValid) RuniqueGreen else RuniqueDarkRed
+            tint = if (isValid)
+                RuniqueGreen
+            else
+                RuniqueDarkRed
         )
 
         Spacer(modifier = Modifier.width(16.dp))

@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class LoginViewModel(
     private val authRepository: AuthRepository,
@@ -48,8 +49,7 @@ class LoginViewModel(
                     isPasswordVisible = !state.isPasswordVisible
                 )
             }
-
-            else -> Unit
+         else -> Unit
         }
 
     }

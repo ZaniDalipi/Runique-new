@@ -4,7 +4,7 @@ package com.zanoapps.auth.presentation.register
 * and then we define them here */
 
 sealed interface RegisterAction {
+    data object OnTogglePasswordVisibilityCheck : RegisterAction
     data object OnLoginClick : RegisterAction
     data object OnRegisterClick : RegisterAction
-    data object OnTogglePasswordVisibilityCheck : RegisterAction
 }

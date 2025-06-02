@@ -1,5 +1,6 @@
 package com.zanoapps.auth.presentation.login
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import com.zanoapps.core.presentation.designsystem.components.RuniqueTextField
 import com.zanoapps.core.presentation.ui.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
+
 @Composable
 fun LoginScreenRoot(
     viewModel: LoginViewModel = koinViewModel(),
@@ -48,6 +50,7 @@ fun LoginScreenRoot(
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    /*One time Event*/
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             is LoginEvent.Error -> {
@@ -73,11 +76,12 @@ fun LoginScreenRoot(
 
     }
 
+//    Calling the child screen composable
     LoginScreen(
         state = viewModel.state,
         onAction = { action ->
             when (action) {
-                LoginAction.OnRegisterClick -> onSignUpClick
+                LoginAction.OnRegisterClick -> onSignUpClick()
                 else -> Unit
             }
             viewModel.onAction(action)

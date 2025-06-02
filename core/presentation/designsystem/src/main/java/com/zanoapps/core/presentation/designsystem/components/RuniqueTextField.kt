@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +56,9 @@ fun RuniqueTextField(
 
 
 ) {
+    // this is a logic that we use in every textField and we use this to make sure what to show in
+    // certain scenarios
+
     var isFocused by remember {
         mutableStateOf(false)
     }
@@ -77,7 +81,8 @@ fun RuniqueTextField(
                 Text(
                     text = error,
                     color = MaterialTheme.colorScheme.error,
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    modifier = Modifier
                 )
             } else if (additionalInfo != null) {
                 Text(
@@ -90,6 +95,7 @@ fun RuniqueTextField(
         /*Row ends*/
 
         Spacer(modifier = Modifier.height(4.dp))
+
 
 
         BasicTextField(
@@ -129,6 +135,7 @@ fun RuniqueTextField(
                         isFocused = it.isFocused
                     }
                 ),
+//            decorator is used to place icons
             decorator = { innerBox ->
                 Row(
                     modifier = Modifier
@@ -158,6 +165,7 @@ fun RuniqueTextField(
                                     modifier = Modifier.fillMaxWidth()
                                 )
                             }
+
                             innerBox()
                         }
                         if (endIcon != null) {

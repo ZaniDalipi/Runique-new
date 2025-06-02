@@ -1,7 +1,10 @@
 package com.zanoapps.runique_new
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,15 +13,17 @@ import androidx.navigation.navigation
 import com.zanoapps.auth.presentation.intro.IntroScreenRoot
 import com.zanoapps.auth.presentation.login.LoginScreenRoot
 import com.zanoapps.auth.presentation.register.RegisterScreenRoot
+import com.zanoapps.core.presentation.designsystem.LogoIcon
 import com.zanoapps.core.presentation.designsystem.util.Routes
 
 @Composable
 fun NavigationRoot(
     navController: NavHostController,
+    isLoggedIn: Boolean
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.AUTH
+        startDestination = if (isLoggedIn) Routes.RUN else Routes.AUTH
     ) {
         authGraph(navController)
         runGraph(navController)
@@ -100,7 +105,11 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
         composable(
             route = Routes.RUN_OVERVIEW
         ) {
-            Text(text = "Run Overview")
+            Image(
+                imageVector = LogoIcon,
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize()
+            )
         }
 
     }
