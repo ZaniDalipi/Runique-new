@@ -10,6 +10,6 @@ data class PasswordValidationState(
     val hasLowerCaseCharacter: Boolean = false,
     val hasUpperCaseCharacter: Boolean = false,
 ) {
-    val isValidPassword: Boolean
+    val isValidPassword
         get() = hasMinLength && hasNumber && hasLowerCaseCharacter && hasUpperCaseCharacter
 }
