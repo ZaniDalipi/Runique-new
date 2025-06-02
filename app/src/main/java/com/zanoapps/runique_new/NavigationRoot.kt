@@ -15,6 +15,7 @@ import com.zanoapps.auth.presentation.login.LoginScreenRoot
 import com.zanoapps.auth.presentation.register.RegisterScreenRoot
 import com.zanoapps.core.presentation.designsystem.LogoIcon
 import com.zanoapps.core.presentation.designsystem.util.Routes
+import com.zanoapps.run.presentation.run_overview.RunOverviewScreenRot
 
 @Composable
 fun NavigationRoot(
@@ -105,11 +106,8 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
         composable(
             route = Routes.RUN_OVERVIEW
         ) {
-            Image(
-                imageVector = LogoIcon,
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-            )
+            RunOverviewScreenRot()
+
         }
 
     }
