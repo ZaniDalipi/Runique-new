@@ -17,12 +17,12 @@ class MainViewModel(
         private set
 
     init {
-        /*viewModelScope.launch {
+        viewModelScope.launch {
             state = state.copy(isCheckingAuth = true)
             state = state.copy(
                 isLoggedIn = sessionStorage.get() != null
             )
             state = state.copy(isCheckingAuth = false)
-        }*/
+        }
     }
 }
