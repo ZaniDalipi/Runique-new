@@ -28,6 +28,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RunOverviewScreenRot(
+    onStartClick: () -> Unit,
     viewModel: RunOverviewViewModel = koinViewModel()
 
 ) {
@@ -35,7 +36,15 @@ fun RunOverviewScreenRot(
     RunOverviewScreen(
 
 
-        onAction = viewModel::onAction
+        onAction = {action ->
+            when(action) {
+                RunOverviewAction.OnStartClick -> onStartClick()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+
+        }
+
 
     )
 
@@ -61,12 +70,9 @@ private fun RunOverviewScreen(
                 scrollBehavior = scrollBehavior,
                 menuItems = listOf(
                     DropDownItem(
-                        icon = AnalyticsIcon,
-                        title = stringResource(R.string.analytics)
-                    ),
-                    DropDownItem(
-                        icon = LogoutIcon,
-                        title = stringResource(R.string.logout)
+                        icon = AnalyticsIcon, title = stringResource(R.string.analytics)
+                    ), DropDownItem(
+                        icon = LogoutIcon, title = stringResource(R.string.logout)
                     )
                 ),
                 onMenuItemClick = { index ->
@@ -83,17 +89,17 @@ private fun RunOverviewScreen(
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(30.dp)
                     )
-                }
-            )
+                })
         },
 
         fab = {
             RuniqueFloatingActionButton(
                 icon = RunIcon,
-                onClick = { onAction(RunOverviewAction.OnStartClick) }
-            )
+                onClick = {
+                    onAction(RunOverviewAction.OnStartClick)
+                })
         },
-    ) {padding ->
+    ) { padding ->
 
 
     }

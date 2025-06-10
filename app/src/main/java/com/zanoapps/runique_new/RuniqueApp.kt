@@ -4,6 +4,7 @@ import android.app.Application
 import com.zanoapps.auth.data.di.authDataModule
 import com.zanoapps.auth.presentation.di.authViewModelModule
 import com.zanoapps.core.data.coreDataModule
+import com.zanoapps.run.presentation.runViewModelModule
 import com.zanoapps.runique_new.di.appModule
 import com.zanoapps.runiquenew.BuildConfig
 import org.koin.android.ext.koin.androidContext
@@ -26,7 +27,8 @@ class RuniqueApp: Application() {
                 authDataModule,
                 authViewModelModule,
                 appModule,
-                coreDataModule
+                coreDataModule,
+                runViewModelModule
             )
         }
     }

@@ -3,6 +3,7 @@ package com.zanoapps.runique_new.di
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.zanoapps.run.presentation.active_run.ActiveRunViewModel
 import com.zanoapps.run.presentation.run_overview.RunOverviewViewModel
 import com.zanoapps.runique_new.MainViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -27,5 +28,5 @@ val appModule = module {  // Creates a Koin DI module
     }
 
     viewModelOf(::MainViewModel)
-    viewModelOf(::RunOverviewViewModel)
+    
 }

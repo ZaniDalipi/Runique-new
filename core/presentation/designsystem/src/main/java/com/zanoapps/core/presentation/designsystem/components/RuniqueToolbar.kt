@@ -134,10 +134,7 @@ fun RuniqueToolbar(
                 }
             }
         }
-
     )
-
-
 }
 
 @Preview
@@ -157,10 +154,11 @@ private fun RuniqueToolbarPrev() {
                 )
             },
             menuItems = listOf(
+
                 DropDownItem(
                     icon = AnalyticsIcon,
                     title = "Analytics"
-                )
+                ),
             )
 
         )
