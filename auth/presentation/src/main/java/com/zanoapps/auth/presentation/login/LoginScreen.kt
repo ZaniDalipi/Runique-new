@@ -1,6 +1,5 @@
 package com.zanoapps.auth.presentation.login
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -66,7 +65,7 @@ fun LoginScreenRoot(
                 keyboardController?.hide()
                 Toast.makeText(
                     context,
-                    R.string.youre_logged_in,
+                    R.string.you_are_logged_in,
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -163,7 +162,7 @@ private fun LoginScreen(
 
                 BasicText(
                     text = buildAnnotatedString {
-                        append(stringResource(R.string.dont_have_an_account) + " ")
+                        append(stringResource(R.string.do_not_have_an_account) + " ")
                         val link =
                             LinkAnnotation.Clickable(
                                 tag = stringResource(R.string.sign_up),

@@ -5,9 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 
-class ActiveRunViewModel: ViewModel() {
+class ActiveRunViewModel : ViewModel() {
 
     var state by mutableStateOf(ActiveRunState())
         private set
@@ -15,7 +16,46 @@ class ActiveRunViewModel: ViewModel() {
     private val eventChannel = Channel<ActiveRunState>()
     val events = eventChannel.receiveAsFlow()
 
-    fun onAction(action: ActiveRunAction) {
+    private var _hasLocationPermission = MutableStateFlow(false)
 
+
+    fun onAction(action: ActiveRunAction) {
+        when (action) {
+            ActiveRunAction.OnFinishRunClick -> {
+                TODO()
+            }
+
+            ActiveRunAction.OnResumeRunClick -> {
+                TODO()
+            }
+
+            ActiveRunAction.OnToggleRunClick -> {
+                TODO()
+            }
+
+            is ActiveRunAction.SubmitLocationPermissionInfo -> {
+                _hasLocationPermission.value = action.acceptedLocationPermission
+                state = state.copy(
+                    showLocationRationale = action.showLocationRationale
+                )
+
+            }
+
+            is ActiveRunAction.SubmitNotificationPermissionInfo -> {
+                state = state.copy(
+                    showNotificationRationale = action.showNotificationPermissionRationale
+                )
+
+            }
+
+            is ActiveRunAction.DismissRationaleDialog -> {
+                state = state.copy(
+                    showNotificationRationale = false,
+                    showLocationRationale = false
+                )
+            }
+
+            else -> Unit
+        }
     }
 }
