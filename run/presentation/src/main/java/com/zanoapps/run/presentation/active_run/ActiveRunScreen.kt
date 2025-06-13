@@ -5,6 +5,7 @@ package com.zanoapps.run.presentation.active_run
 import android.Manifest
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -68,7 +69,7 @@ private fun ActiveRunScreenScreen(
 ) {
     val context = LocalContext.current
     val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
+        contract     = ActivityResultContracts.RequestMultiplePermissions()
     ) { perms ->
         val hasCourseLocationPermission = perms[Manifest.permission.ACCESS_COARSE_LOCATION] == true
         val hasFineLocationPermission = perms[Manifest.permission.ACCESS_FINE_LOCATION] == true
@@ -173,11 +174,11 @@ private fun ActiveRunScreenScreen(
             title = stringResource(id = R.string.permission_required),
             onDismiss = { /* Normal dismissing not allowed for permissions */ },
             description = when {
-                state.showLocationRationale && state.showNotificationRationale -> {
+                state.showLocationRationale  && state.showNotificationRationale -> {
                     stringResource(id = R.string.location_notification_rationale)
                 }
                 state.showLocationRationale -> {
-                    stringResource(id = R.string.location_rationale)
+                        stringResource(id = R.string.location_rationale)
                 }
                 else -> {
                     stringResource(id = R.string.notification_rationale)
@@ -195,8 +196,6 @@ private fun ActiveRunScreenScreen(
             }
         )
     }
-
-
 }
 
 

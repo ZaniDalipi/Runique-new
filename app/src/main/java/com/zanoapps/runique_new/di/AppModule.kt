@@ -6,6 +6,8 @@ import androidx.security.crypto.MasterKey
 import com.zanoapps.run.presentation.active_run.ActiveRunViewModel
 import com.zanoapps.run.presentation.run_overview.RunOverviewViewModel
 import com.zanoapps.runique_new.MainViewModel
+import com.zanoapps.runique_new.RuniqueApp
+import kotlinx.coroutines.CoroutineScope
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -25,6 +27,10 @@ val appModule = module {  // Creates a Koin DI module
             prefKeyEncryptionScheme = EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             prefValueEncryptionScheme = EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
+    }
+
+    single<CoroutineScope> {
+        (androidApplication() as RuniqueApp).applicationScope
     }
 
     viewModelOf(::MainViewModel)
