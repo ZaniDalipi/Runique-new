@@ -34,6 +34,7 @@ import com.zanoapps.core.presentation.designsystem.components.RuniqueOutlinedAct
 import com.zanoapps.core.presentation.designsystem.components.RuniqueScaffold
 import com.zanoapps.core.presentation.designsystem.components.RuniqueToolbar
 import com.zanoapps.run.presentation.active_run.components.RunDataCard
+import com.zanoapps.run.presentation.active_run.maps.TrackerMap
 import com.zanoapps.run.presentation.util.hasLocationPermission
 import com.zanoapps.run.presentation.util.hasNotificationPermission
 import com.zanoapps.run.presentation.util.shouldShowLocationPermissionRationale
@@ -156,6 +157,13 @@ private fun ActiveRunScreenScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
+            TrackerMap(
+                isRunFinished = state.isRunFinished,
+                currentLocation = state.currentLocation,
+                locations = state.runData.locations,
+                onSnapshot = {  },
+                modifier = Modifier.fillMaxSize()
+            )
             RunDataCard(
                 elapsedTime = state.elapsedTime,
                 runData = state.runData,
