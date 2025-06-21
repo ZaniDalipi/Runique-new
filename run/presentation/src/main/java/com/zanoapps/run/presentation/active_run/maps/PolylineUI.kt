@@ -7,6 +7,4 @@ class PolylineUI(
     val location1: Location,
     val location2: Location,
     val color: Color
-){
-
-}
+)

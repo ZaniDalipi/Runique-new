@@ -29,6 +29,7 @@ class AndroidLocationObserver(
     override fun observeLocation(interval: Long): Flow<LocationWithAltitude> {
         return callbackFlow {
             val locationManager = context.getSystemService<LocationManager>()!!
+     // checking whether we have access to the gps and network for faster location observation
             var isGpsEnabled = false
             var isNetworkEnabled = false
 
@@ -41,6 +42,7 @@ class AndroidLocationObserver(
                 }
             }
 
+            // checking for permission
             if (ActivityCompat.checkSelfPermission(
                     context,
                     Manifest.permission.ACCESS_FINE_LOCATION
@@ -53,15 +55,19 @@ class AndroidLocationObserver(
 
             } else {
 
+// listening to the user location
                 client.lastLocation.addOnSuccessListener {
                     it?.let { location ->
                         trySend(location.toLocationWithAltitude())
 
                     }
                 }
+
+                // requesting all the locations not just the last location
                 val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, interval)
                     .build()
 
+                // here we get all the locations that we got from the result we get the last and we send it to the our location by mapping it
                 val locationCallBack = object : LocationCallback() {
                     override fun onLocationResult(res: LocationResult) {
                         super.onLocationResult(res)
@@ -70,8 +76,13 @@ class AndroidLocationObserver(
                         }
                     }
                 }
+
+                // here we pass tell the client hey we got a request and a callback please trigger that
                 client.requestLocationUpdates(request, locationCallBack, Looper.getMainLooper())
 
+
+                // this is triggered when our flow is closed , this will make sure that as soon as the flow is closed we
+                // will remove the location updates
                 awaitClose {
                     client.removeLocationUpdates { locationCallBack }
                 }

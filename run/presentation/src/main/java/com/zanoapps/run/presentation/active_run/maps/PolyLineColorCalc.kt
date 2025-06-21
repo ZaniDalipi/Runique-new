@@ -16,8 +16,8 @@ object PolylineColorCalculator {
 
         return interpolateColor(
             speedKmh = speedKmh,
-            minSpeed = 5.0,
-            maxSpeed = 200.0,
+            minSpeed = 7.0,
+            maxSpeed = 80.0,
             colorStart = Color.Green,
             colorMid = Color.Yellow,
             colorEnd = Color.Red

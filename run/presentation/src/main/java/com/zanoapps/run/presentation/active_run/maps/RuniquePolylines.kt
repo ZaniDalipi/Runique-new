@@ -2,7 +2,6 @@ package com.zanoapps.run.presentation.active_run.maps
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import com.google.android.gms.maps.model.JointType
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.Polyline
@@ -13,7 +12,8 @@ fun RuniquePolylines(
     locations: List<List<LocationTimestamp>>,
 ) {
     // we want to take the list of list of locations and turn that intro polylines
-    val polyines =
+    // this block will be executed whenever the location changes and we remember the value
+    val polylines =
         remember(locations) {
             locations.map {
                 it.zipWithNext { tmp1, tmp2 ->
@@ -28,8 +28,8 @@ fun RuniquePolylines(
                 }
             }
         }
-    polyines.forEach { polyine ->
-        polyine.forEach { polylineUi ->
+    polylines.forEach { polyline ->
+        polyline.forEach { polylineUi ->
             Polyline(
                 points = listOf(
                     LatLng(polylineUi.location1.lat, polylineUi.location1.long),

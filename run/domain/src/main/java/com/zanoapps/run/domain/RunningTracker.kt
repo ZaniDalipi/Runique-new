@@ -23,15 +23,18 @@ import kotlin.math.roundToInt
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
+// contains business logic related to tracking runs, it will glue everything together.
 class RunningTracker(
     private val locationObserver: LocationObserver,
     private val applicationScope: CoroutineScope
 ) {
 
+    // this will be mainly used for ui
     private val _runData = MutableStateFlow(RunData())
     val runData = _runData.asStateFlow()
 
-    private val isTracking = MutableStateFlow(false)
+    private val _isTracking = MutableStateFlow(false)
+    val isTracking = _isTracking.asStateFlow()
     private val isObservingLocation = MutableStateFlow(false)
 
 
@@ -39,20 +42,21 @@ class RunningTracker(
     val elapsedTime = _elapsedTime.asStateFlow()
 
 
-    val currentLocation = isObservingLocation
-        .flatMapLatest { observingLocation ->
-            if (observingLocation) {
-                locationObserver.observeLocation(1000L)
-            } else flowOf()
-        }
-        .stateIn(
-            applicationScope,
-            SharingStarted.Lazily,
-            null
-        )
+    val currentLocation =
+        isObservingLocation
+            .flatMapLatest { observingLocation ->
+                if (observingLocation) {
+                    locationObserver.observeLocation(1000L)
+                } else flowOf()
+            }
+            .stateIn(
+                applicationScope,
+                SharingStarted.Lazily,
+                null
+            )
 
     fun setIsTracking(isTracking: Boolean) {
-        this.isTracking.value = isTracking
+        this._isTracking.value = isTracking
     }
 
     fun startObservingLocation() {
@@ -64,7 +68,19 @@ class RunningTracker(
     }
 
     init {
-        isTracking
+//        tracking the user time
+        _isTracking
+            .onEach { isTracking ->
+                if(!isTracking) {
+                    val newList = buildList {
+                        addAll(runData.value.locations)
+                        add(emptyList<LocationTimestamp>())
+                    }.toList()
+                    _runData.update { it.copy(
+                        locations = newList
+                    ) }
+                }
+            }
             .flatMapLatest { isTracking ->
                 if (isTracking) {
                     Timer.timeAndEmit()
@@ -77,7 +93,7 @@ class RunningTracker(
 
         currentLocation
             .filterNotNull()
-            .combineTransform(isTracking) { location, isTracking ->
+            .combineTransform(_isTracking) { location, isTracking ->
                 if (isTracking) {
                     emit(location)
                 }
@@ -88,8 +104,9 @@ class RunningTracker(
                     durationTimestamp = elapsedTime
                 )
             }
+            /*we get one location from the List<List<tmp>> data and we construct it here*/
             .onEach { location ->
-
+//"Add a new location to the end of the list, or start a fresh list if empty."
                 val currentLocations = runData.value.locations
                 val lastLocationsList = if (currentLocations.isNotEmpty()) {
                     currentLocations.last() + location
@@ -104,11 +121,12 @@ class RunningTracker(
                 val distanceInKm = distanceMeters / 1000.0
                 val currentDuration = location.durationTimestamp
 
-                val avgSecondsPerKm = if(distanceInKm == 0.0) {
-                    0
-                } else {
-                    (currentDuration.inWholeSeconds / distanceInKm).roundToInt()
-                }
+                val avgSecondsPerKm =
+                    if (distanceInKm == 0.0) {
+                        0
+                    } else {
+                        (currentDuration.inWholeSeconds / distanceInKm).roundToInt()
+                    }
 
                 _runData.update {
                     RunData(
@@ -121,7 +139,6 @@ class RunningTracker(
             .launchIn(applicationScope)
     }
 }
-
 
 
 private fun <T> List<List<T>>.replaceLast(replacement: List<T>): List<List<T>> {

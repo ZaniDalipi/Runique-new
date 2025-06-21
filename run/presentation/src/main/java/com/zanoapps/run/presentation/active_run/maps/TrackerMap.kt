@@ -77,6 +77,8 @@ fun TrackerMap(
         }
     }
 
+    // actual ui implementation
+
     GoogleMap(
         cameraPositionState = cameraPositionState,
         properties = MapProperties(
