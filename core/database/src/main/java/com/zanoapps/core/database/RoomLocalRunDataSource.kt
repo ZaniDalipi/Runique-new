@@ -24,7 +24,7 @@ class RoomLocalRunDataSource(
             }
     }
 
-    override suspend fun upsertRuns(run: Run): Result<RunId, DataError.Local> {
+    override suspend fun upsertRun(run: Run): Result<RunId, DataError.Local> {
 
         return try {
             val entity = run.toRunEntity()

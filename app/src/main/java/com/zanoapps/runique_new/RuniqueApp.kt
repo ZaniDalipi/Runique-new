@@ -6,6 +6,7 @@ import com.zanoapps.auth.presentation.di.authViewModelModule
 import com.zanoapps.core.data.coreDataModule
 import com.zanoapps.core.database.di.databaseModule
 import com.zanoapps.run.location.di.locationModule
+import com.zanoapps.run.network.di.networkModule
 import com.zanoapps.run.presentation.runPresentationModule
 import com.zanoapps.runique_new.di.appModule
 import com.zanoapps.runiquenew.BuildConfig
@@ -36,7 +37,8 @@ class RuniqueApp: Application() {
                 coreDataModule,
                 runPresentationModule,
                 locationModule,
-                databaseModule
+                databaseModule,
+                networkModule
             )
         }
     }

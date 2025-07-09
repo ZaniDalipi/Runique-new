@@ -10,6 +10,8 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val databaseModule = module {
+
+
     single {
         Room.databaseBuilder(
             androidApplication(),

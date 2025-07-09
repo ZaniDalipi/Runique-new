@@ -12,7 +12,7 @@ import com.zanoapps.auth.presentation.intro.IntroScreenRoot
 import com.zanoapps.auth.presentation.login.LoginScreenRoot
 import com.zanoapps.auth.presentation.register.RegisterScreenRoot
 import com.zanoapps.core.presentation.designsystem.util.Routes
-import com.zanoapps.run.presentation.active_run.ActiveRunScreenScreenRot
+import com.zanoapps.run.presentation.active_run.ActiveRunScreenScreenRoot
 import com.zanoapps.run.presentation.active_run.service.ActiveRunService
 import com.zanoapps.run.presentation.run_overview.RunOverviewScreenRot
 
@@ -120,7 +120,14 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
             )
         ) {
             val context = LocalContext.current
-            ActiveRunScreenScreenRot(
+            ActiveRunScreenScreenRoot(
+                onBack = {
+                    navController.navigateUp()
+                },
+                onFinish = {
+                    navController.navigateUp()
+
+                },
                 onServiceToggle = { shouldServiceRun ->
                     if (shouldServiceRun) {
                         context.startService(

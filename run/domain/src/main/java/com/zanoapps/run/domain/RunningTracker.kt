@@ -67,18 +67,27 @@ class RunningTracker(
         isObservingLocation.value = false
     }
 
+    fun finishRun() {
+        stopObservingLocation()
+        setIsTracking(false)
+        _elapsedTime.value = Duration.ZERO
+        _runData.value = RunData()
+    }
+
     init {
 //        tracking the user time
         _isTracking
             .onEach { isTracking ->
-                if(!isTracking) {
+                if (!isTracking) {
                     val newList = buildList {
                         addAll(runData.value.locations)
                         add(emptyList<LocationTimestamp>())
                     }.toList()
-                    _runData.update { it.copy(
-                        locations = newList
-                    ) }
+                    _runData.update {
+                        it.copy(
+                            locations = newList
+                        )
+                    }
                 }
             }
             .flatMapLatest { isTracking ->

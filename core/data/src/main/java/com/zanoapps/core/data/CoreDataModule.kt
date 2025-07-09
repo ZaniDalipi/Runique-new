@@ -3,7 +3,9 @@ package com.zanoapps.core.data
 import android.content.SharedPreferences
 import com.zanoapps.core.data.auth.EncryptedSessionStorage
 import com.zanoapps.core.data.networking.HttpClientFactory
+import com.zanoapps.core.data.run.OfflineFirstRunRunRepository
 import com.zanoapps.core.domain.SessionStorage
+import com.zanoapps.core.domain.run.RunRepository
 import io.ktor.client.HttpClient
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -15,5 +17,6 @@ val coreDataModule = module {
     }
 
     singleOf(::EncryptedSessionStorage).bind<SessionStorage>()
+    singleOf(::OfflineFirstRunRunRepository).bind<RunRepository>()
 
 }
