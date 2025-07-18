@@ -1,5 +1,6 @@
 package com.zanoapps.core.data.run
 
+import com.zanoapps.core.data.networking.get
 import com.zanoapps.core.database.dao.RunPendingSyncDao
 import com.zanoapps.core.database.mappers.toRun
 import com.zanoapps.core.domain.SessionStorage
@@ -13,6 +14,11 @@ import com.zanoapps.core.domain.util.DataError
 import com.zanoapps.core.domain.util.EmptyResult
 import com.zanoapps.core.domain.util.Result
 import com.zanoapps.core.domain.util.asEmptyDataResult
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.authProvider
+import io.ktor.client.plugins.auth.providers.BearerAuthProvider
+import io.ktor.client.plugins.plugin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -26,7 +32,8 @@ class OfflineFirstRunRunRepository(
     private val applicationScope: CoroutineScope,
     private val runPendingSyncDao: RunPendingSyncDao,
     private val sessionStorage: SessionStorage,
-    private val syncRunScheduler: SyncRunScheduler
+    private val syncRunScheduler: SyncRunScheduler,
+    private val client: HttpClient
 ) : RunRepository {
 
     override fun getRuns(): Flow<List<Run>> {
@@ -155,5 +162,21 @@ class OfflineFirstRunRunRepository(
         }
 
 
+    }
+
+    override suspend fun deleteAllRuns() {
+        localRunDataSource.deleteAllRuns()
+    }
+
+    override suspend fun logout(): EmptyResult<DataError.Network> {
+        val result = client.get<Unit>(
+            route = "/logout"
+        ).asEmptyDataResult()
+
+        client.authProvider<BearerAuthProvider>()?.clearToken()
+
+
+
+        return result
     }
 }

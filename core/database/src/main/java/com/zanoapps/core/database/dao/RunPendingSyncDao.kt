@@ -3,7 +3,7 @@ package com.zanoapps.core.database.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.zanoapps.core.database.entities.DeleteRunSyncEntity
+import com.zanoapps.core.database.entities.DeletedRunSyncEntity
 import com.zanoapps.core.database.entities.RunPendingSyncEntity
 import com.zanoapps.core.domain.run.RunId
 
@@ -19,7 +19,7 @@ interface RunPendingSyncDao {
     suspend fun getRunPendingSyncEntity(runId: String) : RunPendingSyncEntity?
 
     @Upsert
-    suspend fun upsertRunPendingSyncEntity(entity: RunPendingSyncEntity): RunPendingSyncEntity
+    suspend fun upsertRunPendingSyncEntity(entity: RunPendingSyncEntity)
 
     @Query("DELETE FROM runpendingsyncentity where runId = :runId")
     suspend fun deleteRunPendingSyncEntity(runId: String)
@@ -27,12 +27,12 @@ interface RunPendingSyncDao {
 
     // DELETED RUNS
 
-    @Query("SELECT * From deleterunsyncentity  where userId = :userId")
-    suspend fun getAllDeletedRunSyncEntities(userId: String): List<DeleteRunSyncEntity>
+    @Query("SELECT * From deletedrunsyncentity where userId = :userId")
+    suspend fun getAllDeletedRunSyncEntities(userId: String): List<DeletedRunSyncEntity>
 
     @Upsert
-    suspend fun upsertDeletedRunSyncEntity(entity: DeleteRunSyncEntity): DeleteRunSyncEntity
+    suspend fun upsertDeletedRunSyncEntity(entity: DeletedRunSyncEntity)
 
-    @Query("Delete From deleterunsyncentity where runId=:runId")
+    @Query("Delete From deletedrunsyncentity where runId=:runId")
     suspend fun deleteDeletedRunSyncEntity(runId: RunId)
 }

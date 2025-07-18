@@ -10,7 +10,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.await
 import com.zanoapps.core.database.dao.RunPendingSyncDao
-import com.zanoapps.core.database.entities.DeleteRunSyncEntity
+import com.zanoapps.core.database.entities.DeletedRunSyncEntity
 import com.zanoapps.core.database.entities.RunPendingSyncEntity
 import com.zanoapps.core.database.mappers.toRunEntity
 import com.zanoapps.core.domain.SessionStorage
@@ -115,7 +115,7 @@ class SyncRunWorkerScheduler(
     /*SCHEDULE DELETE RUN WORKER*/
     private suspend fun scheduleDeleteRunWorker(runId: RunId) {
         val userId = sessionStorage.get()?.userId ?: return
-        val entity = DeleteRunSyncEntity(
+        val entity = DeletedRunSyncEntity(
             runId = runId,
             userId = userId
         )

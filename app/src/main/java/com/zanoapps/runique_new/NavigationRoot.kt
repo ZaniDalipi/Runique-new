@@ -14,7 +14,7 @@ import com.zanoapps.auth.presentation.register.RegisterScreenRoot
 import com.zanoapps.core.presentation.designsystem.util.Routes
 import com.zanoapps.run.presentation.active_run.ActiveRunScreenScreenRoot
 import com.zanoapps.run.presentation.active_run.service.ActiveRunService
-import com.zanoapps.run.presentation.run_overview.RunOverviewScreenRot
+import com.zanoapps.run.presentation.run_overview.RunOverviewScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -105,10 +105,17 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
         composable(
             route = Routes.RUN_OVERVIEW
         ) {
-            RunOverviewScreenRot(
+            RunOverviewScreenRoot(
                 onStartClick = {
                     navController.navigate(Routes.ACTIVE_RUN)
-                }
+                },
+                onLogoutClick = {
+                    navController.navigate(Routes.AUTH) {
+                        popUpTo(Routes.RUN) {
+                            inclusive = true
+                        }
+                    }
+                },
             )
         }
         composable(
