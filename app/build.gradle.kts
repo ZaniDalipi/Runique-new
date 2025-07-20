@@ -7,10 +7,8 @@ plugins {
 
 android {
     namespace = "com.zanoapps.runiquenew"
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-    dynamicFeatures += setOf(":analytics:analytic-feature")
+
+    dynamicFeatures += setOf(":analytics:analytic_feature")
 
 
 

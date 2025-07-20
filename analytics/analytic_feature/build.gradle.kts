@@ -10,6 +10,5 @@ dependencies {
 
     api(projects.analytics.presentation)
     implementation(projects.analytics.domain)
-    implementation(projects.analytics.data)
-    implementation(projects.core.database)
+    implementation(projects.analytics.domain)
 }

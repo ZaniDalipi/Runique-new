@@ -15,6 +15,7 @@ dependencies {
 }
 
 gradlePlugin {
+
     plugins {
         register("androidApplication") {
             id = "zanoapps.runiquenew"
