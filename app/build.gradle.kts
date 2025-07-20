@@ -10,6 +10,7 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    dynamicFeatures += setOf(":analytics:analytic-feature")
 
 
 

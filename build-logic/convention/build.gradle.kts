@@ -43,13 +43,14 @@ gradlePlugin {
             implementationClass = "AndroidFeatureUiConventionPlugin"
         }
 
-        register("androidDynamicFeature") {
-            id = "runiquenew.android.dynamic.feature"
-            implementationClass = "AndroidDynamicFeatureConventionPlugin"
-        }
         register("androidRoom") {
             id = "zanoapps.runiquenew.room"
             implementationClass = "AndroidRoomConventionPlugin"
+        }
+
+        register("androidDynamicFeature") {
+            id = "runiquenew.android.dynamic.feature"
+            implementationClass = "AndroidDynamicFeatureConventionPlugin"
         }
         register("jvmLibray") {
             id = "zanoapps.runiquenew.jvm.library"
