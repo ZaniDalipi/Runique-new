@@ -319,13 +319,13 @@ private fun RuniqueListItemPreview() {
                 id = "123",
                 duration = 10.minutes + 30.seconds,
                 dateTimeUtc = ZonedDateTime.now(),
-                distanceMeters = 2532.5,
+                distanceMeters = 2532,
                 location = Location(0.0, 0.0),
                 maxSpeedKmh = 15.63213,
                 totalElevationMeters = 4,
                 mapPictureUrl = null
             ).toRunUi(),
-            onDeleteClick = { TODO() },
+            onDeleteClick = {  },
         )
     }
 

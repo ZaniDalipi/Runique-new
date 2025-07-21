@@ -9,7 +9,7 @@ data class Run(
     val id: String?,
     val duration: Duration,
     val dateTimeUtc: ZonedDateTime,
-    val distanceMeters: Double,
+    val distanceMeters: Int,
     val location: Location,
     val maxSpeedKmh: Double,
     val totalElevationMeters: Int,

@@ -4,7 +4,9 @@ package com.zanoapps.run.presentation.active_run
 
 import android.Manifest
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -33,6 +35,7 @@ import com.zanoapps.core.presentation.designsystem.components.RuniqueFloatingAct
 import com.zanoapps.core.presentation.designsystem.components.RuniqueOutlinedActionButton
 import com.zanoapps.core.presentation.designsystem.components.RuniqueScaffold
 import com.zanoapps.core.presentation.designsystem.components.RuniqueToolbar
+import com.zanoapps.core.presentation.ui.ObserveAsEvents
 import com.zanoapps.run.presentation.active_run.components.RunDataCard
 import com.zanoapps.run.presentation.active_run.maps.TrackerMap
 import com.zanoapps.run.presentation.active_run.service.ActiveRunService
@@ -41,21 +44,45 @@ import com.zanoapps.run.presentation.util.hasNotificationPermission
 import com.zanoapps.run.presentation.util.shouldShowLocationPermissionRationale
 import com.zanoapps.run.presentation.util.shouldShowNotificationPermissionRationale
 import org.koin.androidx.compose.koinViewModel
+import java.io.ByteArrayOutputStream
 
 @Composable
 
-fun ActiveRunScreenScreenRot(
+fun ActiveRunScreenScreenRoot(
 
     onServiceToggle: (isServiceRunning: Boolean) -> Unit,
-    viewModel: ActiveRunViewModel = koinViewModel()
+    viewModel: ActiveRunViewModel = koinViewModel(),
+    onFinish: () -> Unit,
+    onBack: () -> Unit,
+    ) {
 
-) {
+    val context = LocalContext.current
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            is ActiveRunEvent.Error -> {
+                Toast.makeText(
+                    context, event.error.asString(context), Toast.LENGTH_LONG
+                ).show()
+            }
+
+            ActiveRunEvent.RunSaved -> onFinish()
+        }
+    }
 
     ActiveRunScreenScreen(
 
-        state = viewModel.state,
-        onServiceToggle = onServiceToggle,
-        onAction = viewModel::onAction
+        state = viewModel.state, onServiceToggle = onServiceToggle, onAction = { action ->
+            when (action) {
+                is ActiveRunAction.OnBackClick -> {
+                    if (!viewModel.state.hasStartedRunning) {
+                        onBack()
+                    }
+                }
+
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
 
     )
 
@@ -128,7 +155,7 @@ private fun ActiveRunScreenScreen(
     }
 
     LaunchedEffect(key1 = state.shouldTrack) {
-        if(context.hasLocationPermission() && state.shouldTrack && !ActiveRunService.isServiceActive) {
+        if (context.hasLocationPermission() && state.shouldTrack && !ActiveRunService.isServiceActive) {
             onServiceToggle(true)
         }
     }
@@ -164,7 +191,15 @@ private fun ActiveRunScreenScreen(
                 isRunFinished = state.isRunFinished,
                 currentLocation = state.currentLocation,
                 locations = state.runData.locations,
-                onSnapshot = { },
+                onSnapshot = { btmp ->
+                    val stream = ByteArrayOutputStream()
+                    stream.use {
+                        btmp.compress(
+                            Bitmap.CompressFormat.JPEG, 80, it
+                        )
+                    }
+                    onAction(ActiveRunAction.OnRunProcessed(stream.toByteArray()))
+                },
                 modifier = Modifier.fillMaxSize()
             )
             RunDataCard(
@@ -201,8 +236,7 @@ private fun ActiveRunScreenScreen(
                     },
                     modifier = Modifier.weight(1f)
                 )
-            }
-        )
+            })
     }
 
     if (state.showLocationRationale || state.showNotificationRationale) {
@@ -259,18 +293,11 @@ private fun ActivityResultLauncher<Array<String>>.requestRuniquePermissions(
 
 
 @Preview
-
 @Composable
-
 private fun ActiveRunScreenScreenPreview() {
 
     RuniqueTheme {
-
-        ActiveRunScreenScreen(
-
-            state = ActiveRunState(),
-            onServiceToggle = {},
-            onAction = {}
+        ActiveRunScreenScreen(state = ActiveRunState(), onServiceToggle = {}, onAction = {}
 
         )
 

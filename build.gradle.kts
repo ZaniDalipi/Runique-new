@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.mapsplatform.secrets.plugin) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     //alias(libs.plugins.jetbrainsKotlinAndroid) apply false
     //alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
 }

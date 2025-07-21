@@ -8,7 +8,7 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
 composeBom = "2024.08.00"
-appcompat = "1.7.0"
+appcompat = "1.7.1"
 material = "1.12.0"
 jetbrainsKotlinJvm = "2.0.21"
 androidTools = "31.9.2"
@@ -138,6 +138,7 @@ runique-android-library = { id = "zanoapps.runiquenew.library", version = "unspe
 runique-android-library-compose = { id = "zanoapps.runiquenew.library.compose", version = "unspecified" }
 runique-android-features-ui = { id = "zanoapps.runiquenew.feature.ui", version = "unspecified" }
 runique-android-room = { id = "zanoapps.runiquenew.room", version = "unspecified" }
+runique-android-dynamic-feature = { id = "runiquenew.android.dynamic.feature", version = "unspecified" }
 runique-jvm-libary = { id = "zanoapps.runiquenew.jvm.library", version = "unspecified" }
 runique-jvm-ktor = { id = "zanoapps.runiquenew.jvm.ktor", version = "unspecified" }
 

@@ -26,7 +26,6 @@ class HttpClientFactory(
 ) {
 
     fun build(): HttpClient {
-        // how we are going to construct the client and with what data it will work
         return HttpClient(CIO) {
             install(ContentNegotiation) {
                 json(
@@ -35,7 +34,6 @@ class HttpClientFactory(
                     }
                 )
             }
-            // this is for the log of our request, debugging and more, its shows all details of the request
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
@@ -44,25 +42,20 @@ class HttpClientFactory(
                 }
                 level = LogLevel.ALL
             }
-
             defaultRequest {
                 contentType(ContentType.Application.Json)
                 header("x-api-key", BuildConfig.API_KEY)
             }
-
             install(Auth) {
                 bearer {
                     loadTokens {
-                        // how our token looks like, include it from the data, and inform ktor how it looks like
                         val info = sessionStorage.get()
                         BearerTokens(
                             accessToken = info?.accessToken ?: "",
                             refreshToken = info?.refreshToken ?: ""
                         )
-
                     }
                     refreshTokens {
-                        // this will be called when the excess token is expired
                         val info = sessionStorage.get()
                         val response = client.post<AccessTokenRequest, AccessTokenResponse>(
                             route = "/accessToken",
@@ -71,13 +64,13 @@ class HttpClientFactory(
                                 userId = info?.userId ?: ""
                             )
                         )
-                        if (response is Result.Success) {
+
+                        if(response is Result.Success) {
                             val newAuthInfo = AuthInfo(
                                 accessToken = response.data.accessToken,
                                 refreshToken = info?.refreshToken ?: "",
                                 userId = info?.userId ?: ""
                             )
-
                             sessionStorage.set(newAuthInfo)
 
                             BearerTokens(
@@ -92,9 +85,7 @@ class HttpClientFactory(
                         }
                     }
                 }
-
             }
-
         }
     }
 }
